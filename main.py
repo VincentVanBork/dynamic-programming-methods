@@ -125,4 +125,4 @@ if __name__ == "__main__":
     # Tu jak zmienimy na false to liczy najlepsze rozwiązanie
     # a jak second choice to najlepsza strategie ? chyba
     # second_choice=True ustawia ze poczatkowy stan jest inny niz chcemy
-    main(second_choice=True)
+    main(second_choice=False)
