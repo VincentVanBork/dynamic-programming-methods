@@ -118,9 +118,6 @@ def main(second_choice: bool):
     print("BEST OPTION: ", min_num.name[0])
 
 
-
-
-
 if __name__ == "__main__":
     # Tu jak zmienimy na false to liczy najlepsze rozwiązanie
     # a jak second choice to najlepsza strategie ? chyba
