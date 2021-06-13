@@ -56,23 +56,27 @@ def main():
             if graph.get_edge(trace.name[-1]).from_ == edge.to_:
                 first_traces.append(trace + GraphTrace(edge.name, edge.weight))
 
-    print("WHOLE SOLUTION:", )
+    print("WHOLE SOLUTION:")
     min_num = min(first_traces, key=attrgetter('weight'))
     print("[--] ORDER OF EDGES: ", list(min_num.name[::-1]))
     print("[--] SOLUTION: ", min_num.weight)
+    print("[--] BEST OPTION: ", min_num.name[0])
 
+    print("------------------------")
     print("SECOND STAGE: ")
     min_num = min(second_traces, key=attrgetter('weight'))
     print("ORDER OF EDGES: ", list(min_num.name[::-1]))
-
+    print("BEST OPTION: ", min_num.name[0])
+    print("------------------------")
     print("THIRD STAGE: ")
     min_num = min(third_traces, key=attrgetter('weight'))
     print("ORDER OF EDGES: ", list(min_num.name[::-1]))
-
+    print("BEST OPTION: ", min_num.name[0])
+    print("------------------------")
     print("FOURTH STAGE: ")
     min_num = min(fourth_traces, key=attrgetter('weight'))
     print("ORDER OF EDGES: ", list(min_num.name[::-1]))
-
+    print("BEST OPTION: ", min_num.name[0])
     # print(first_traces)
     # print(second_traces)
     # print(third_traces)
