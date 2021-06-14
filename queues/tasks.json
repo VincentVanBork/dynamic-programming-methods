@@ -1,14 +1,14 @@
 {
     "0": {
-        "WCET": 15,
-        "Period": 30
+        "Period": 30,
+        "WCET": 15
     },
     "1": {
-        "WCET": 3,
-        "Period": 15
+        "Period": 15,
+        "WCET": 3
     },
     "2": {
-        "WCET": 1,
-        "Period": 5
+        "Period": 5,
+        "WCET": 1
     }
 }

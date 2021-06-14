@@ -3,7 +3,10 @@ import copy
 from sys import *
 from math import gcd
 from collections import OrderedDict
+import matplotlib
+matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
+
 import numpy as np
 import statistics as st
 from collections import defaultdict
