@@ -1,9 +1,12 @@
 import json
 import copy
+import time
+from random import randrange, random
 from sys import *
 from math import gcd
 from collections import OrderedDict
 import matplotlib
+
 matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
 
@@ -24,6 +27,18 @@ y_axis = []
 from_x = []
 to_x = []
 
+# auto_n = 3
+# auto_tasking = []
+# for n_tests in range(auto_n):
+#     time.sleep(random())
+#     auto_tasking.append((randrange(1, 120), randrange(1, 15)))
+# THE WORST CODE I HAD TO USE IN MY LIFE EVER
+# TOP 10 at least
+global auto_n
+global auto_tasking
+auto_n = 5
+auto_tasking = [(64, 6), (64, 12), (64*2, 7), (64, 15), (64, 1), (64, 3)]
+
 
 def Read_data():
     """
@@ -38,8 +53,8 @@ def Read_data():
     global dList
 
     dList = {}
-
-    n = int(input("\n \t\tEnter number of Tasks:"))
+    n = auto_n
+    # n = int(input("\n \t\tEnter number of Tasks:"))
     # Storing data in a dictionary
     for i in range(n):
         dList["TASK_%d" % i] = {"start": [], "finish": []}
@@ -48,15 +63,20 @@ def Read_data():
 
     for i in range(n):
         tasks[i] = {}
-        print("\n\n\n Enter Period of task T", i, ":")
-        p = input()
-        tasks[i]["Period"] = int(p)
-        print("Enter the WCET of task C", i, ":")
-        w = input()
-        tasks[i]["WCET"] = int(w)
+        tasks[i]["Period"] = auto_tasking[i][0]
+        tasks[i]["WCET"] = auto_tasking[i][1]
+
+    # for i in range(n):
+    #     tasks[i] = {}
+    #     print("\n\n\n Enter Period of task T", i, ":")
+    #     p = input()
+    #     tasks[i]["Period"] = int(p)
+    #     print("Enter the WCET of task C", i, ":")
+    #     w = input()
+    #     tasks[i]["WCET"] = int(w)
 
     # Writing the dictionary into a JSON file
-    with open('tasks.json', 'w') as outfile:
+    with open(f'tasks_{auto_n}_{auto_tasking}.json', 'w') as outfile:
         json.dump(tasks, outfile, indent=4)
 
 
@@ -150,7 +170,7 @@ def Simulation(hp):
         priority = estimatePriority(RealTime_task)
 
         if (priority != -1):  # processor is not idle
-            print("\nt{}-->t{} :TASK{}".format(t, t + 1, priority))
+            # print("\nt{}-->t{} :TASK{}".format(t, t + 1, priority))
             # Update WCET after each clock cycle
             RealTime_task[priority]["WCET"] -= 1
             # For the calculation of the metrics
@@ -162,7 +182,7 @@ def Simulation(hp):
             to_x.append(t + 1)
 
         else:  # processor is idle
-            print("\nt{}-->t{} :IDLE".format(t, t + 1))
+            # print("\nt{}-->t{} :IDLE".format(t, t + 1))
             # For the calculation of the metrics
             dList["TASK_IDLE"]["start"].append(t)
             dList["TASK_IDLE"]["finish"].append(t + 1)
@@ -196,6 +216,7 @@ def drawGantt():
     plt.xlabel("Real-Time clock")
     plt.ylabel("HIGH------------------Priority--------------------->LOW")
     plt.xticks(np.arange(min(from_x), max(to_x) + 1, 1.0))
+    plt.savefig(f"{n}_{auto_tasking}")
     plt.show()
 
 
@@ -254,7 +275,7 @@ def showMetrics():
         print("\n")
 
     # Storing results into a JSON file
-    with open('Metrics.json', 'w') as f:
+    with open(f'Metrics_{auto_n}_{auto_tasking}.json', 'w') as f:
         json.dump(metrics, f, indent=4)
     print("\n\n\t\tScheduling of %d tasks completed succesfully...." % n)
 
@@ -272,11 +293,16 @@ def filter_out(start_array, finish_array, release_time):
         for i in range(int(release_time - 1)):
             beg_time = beg_time + diff
             new_start.append(beg_time)
-            count = start_array.index(prev)
-            for i in range(start_array.index(prev),
-                           start_array.index(beg_time) - 1):
-                count += 1
-            new_finish.append(finish_array[count])
+            try:
+                count = start_array.index(prev)
+
+                for i in range(start_array.index(prev),
+                               start_array.index(beg_time) - 1):
+                    count += 1
+
+                new_finish.append(finish_array[count])
+            except ValueError:
+                print(prev)
             prev = beg_time
         new_finish.append(max(finish_array))
 
@@ -296,11 +322,12 @@ if __name__ == '__main__':
     if sched_res == True:
 
         hp = Hyperperiod()
+        if hp > 1000:
+            hp = sum([task[0] for task in auto_tasking])
         Simulation(hp)
         showMetrics()
         drawGantt()
 
     else:
-
         Read_data()
         sched_res = Schedulablity()

@@ -1,0 +1,30 @@
+{
+    "0": {
+        "Releases": 1.7391304347826086,
+        "Period": 46,
+        "WCET": 4,
+        "AvgRespTime": 55,
+        "AvgWaitTime": 10
+    },
+    "1": {
+        "Releases": 1.25,
+        "Period": 64,
+        "WCET": 4,
+        "AvgRespTime": 74,
+        "AvgWaitTime": 14
+    },
+    "2": {
+        "Releases": 2.3529411764705883,
+        "Period": 34,
+        "WCET": 4,
+        "AvgRespTime": 72,
+        "AvgWaitTime": 6
+    },
+    "3": {
+        "Releases": 5.333333333333333,
+        "Period": 15,
+        "WCET": 6,
+        "AvgRespTime": 8.8,
+        "AvgWaitTime": 0
+    }
+}
